@@ -6,7 +6,7 @@
 /*   By: slott <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 14:08:45 by slott             #+#    #+#             */
-/*   Updated: 2021/11/16 17:27:22 by slott            ###   ########.fr       */
+/*   Updated: 2021/11/17 16:49:21 by slott            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -55,8 +55,6 @@ int	check_save(char *save)
 		}	
 		c++;
 	}
-	if (save[c] == EOF)
-		return (1);
 	return (0);
 }
 
