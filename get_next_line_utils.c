@@ -55,6 +55,8 @@ int	check_save(char *save)
 		}	
 		c++;
 	}
+	if (save[c] == EOF)
+		return (1);
 	return (0);
 }
 

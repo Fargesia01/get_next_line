@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-#define BUF_SIZE 100
+#define BUF_SIZE 1
 
 int		check_tmp(char *tmp);
 char	*cpy_tmp(char *tmp, char *tab);
@@ -20,22 +20,17 @@ char	*save_tmp(char *tmp);
 char	*get_next_line(int fd)
 {
 	char		*tab;
-	int			trigger;
 	static char	*save;
 
-	trigger = 0;
 	tab = "\0";
 	if (!save)
 		save = malloc(BUF_SIZE * sizeof(char) + 1);
 	else
 	{
 		tab = ft_strjoin(save, tab);
-		if (check_save(save) && check end of file)
-			trigger = 1;
 		save = ft_trim(save);
 	}
-	printf("%d\n", trigger);
-	while (!check_save(save) && trigger == 0)
+	while (!check_save(save))
 	{
 		read(fd, save, BUF_SIZE);
 		tab = ft_strjoin(save, tab);
@@ -51,9 +46,9 @@ int	main()
 
 	fd = open("test", O_RDWR | O_APPEND);
 	//tab = get_next_line(fd);
+	//tab = get_next_line(fd);
 	tab = get_next_line(fd);
 	tab = get_next_line(fd);
-	tab = get_next_line(fd);
-	printf("final :%s\n", tab);
+	printf("%s\n", tab);
 	close(fd);
 }
