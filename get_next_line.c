@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-#define BUF_SIZE 1000
+#define BUF_SIZE 19
 
 int		check_tmp(char *tmp);
 char	*cpy_tmp(char *tmp, char *tab);
@@ -36,7 +36,8 @@ char	*get_next_line(int fd)
 	}
 	while (!check_save(save) && trigger == 0)
 	{
-		read(fd, save, BUF_SIZE);
+		if (read(fd, save, BUF_SIZE) == 0)
+			trigger = 1;
 		tab = ft_strjoin(save, tab);
 	}
 	if (trigger == 0)
@@ -50,14 +51,14 @@ int	main()
 	char *tab;
 
 	fd = open("test", O_RDWR | O_APPEND);
+	//tab = get_next_line(fd);
+	//tab = get_next_line(fd);
+	//tab = get_next_line(fd);
+	//tab = get_next_line(fd);
 	tab = get_next_line(fd);
+	printf("%s\n", tab);
 	tab = get_next_line(fd);
-	tab = get_next_line(fd);
-	tab = get_next_line(fd);
-	tab = get_next_line(fd);
-	printf("%s\n\n", tab);
-	tab = get_next_line(fd);
-	printf("%s\n\n", tab);
+	printf("%s\n", tab);
 	tab = get_next_line(fd);
 	printf("%s\n", tab);
 	close(fd);
