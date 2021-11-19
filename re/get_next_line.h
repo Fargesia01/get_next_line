@@ -22,5 +22,8 @@ int		check_save(char *save);
 char	*get_line(int fd, char *tmp, char *save);
 int		read_file(int fd, char *tmp, char *save);
 char	*ft_extract(char *save);
+int	ft_strlen(char *str);
+char	*ft_strdup(char *str);
+char	*ft_strjoin(char *str1, char *str2);
 
 #endif
