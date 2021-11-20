@@ -79,3 +79,28 @@ char	*ft_strjoin(char *str1, char *str2)
 	str[c + c2] = 0;
 	return (str);
 }
+
+char	*ft_substr(char *str, int start, int taille)
+{
+	int	c;
+	char	*tab;
+
+	c = 0;
+	if (!str)
+		return (NULL);
+	if (start > ft_strlen(str))
+		tab = malloc(1 * sizeof(char));
+	else if (taille <= ft_strlen(str) - start)
+		tab = malloc(taille * sizeof(char) + 1);
+	else
+		tab = malloc(ft_strlen(str) - start * sizeof(char) + 1);
+	if (!tab)
+		return (NULL);
+	while (c < taille && str[start + c] && start < ft_strlen(str))
+	{
+		tab[c] = str[start + c];
+		c++;
+	}
+	tab[c] = 0;
+	return (tab);
+}

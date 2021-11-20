@@ -85,6 +85,8 @@ char	*ft_extract(char *save)
 		li[c] = save[c];
 		c++;
 	}
+	li[c] = 0;
+	save = ft_substr(save, c, machin);
 	return (li);
 }
 

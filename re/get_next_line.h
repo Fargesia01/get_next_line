@@ -25,5 +25,6 @@ char	*ft_extract(char *save);
 int	ft_strlen(char *str);
 char	*ft_strdup(char *str);
 char	*ft_strjoin(char *str1, char *str2);
+char	*ft_substr(char *str, int start, int taille);
 
 #endif
