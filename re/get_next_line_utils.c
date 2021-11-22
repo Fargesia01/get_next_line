@@ -44,12 +44,13 @@ char	*ft_strdup(char *str)
 	clone = malloc(size * sizeof(char) + 1);
 	if (!clone)
 		return (NULL);
-	c = -1;
+	c = 0;
 	while (c < size)
 	{
 		clone[c] = str[c];
 		c++;
 	}
+	clone[c] = 0;
 	return (clone);
 }
 

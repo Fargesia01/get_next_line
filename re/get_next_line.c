@@ -13,18 +13,18 @@
 
 char	*get_next_line(int fd)
 {
-	static char *save;
+	static char *save[257];
 	char *tmp;
 	char *tab;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 257)
 		return (NULL);
-	tmp = malloc (BUFFER_SIZE * sizeof(char) + 1);
-	if (!save)
-		save = malloc(BUFFER_SIZE * sizeof(char) + 1);
-	if (!save || !tmp)
+	tmp = malloc(BUFFER_SIZE * sizeof(char) + 1);
+	if (!tmp)
 		return (NULL);
-	tab = get_line(fd, tmp, save);
+	if (!save[fd])
+		save[fd] = ft_strdup("");
+	tab = get_line(fd, tmp, save[fd]);
 	free(tmp);
 	return (tab);
 }
@@ -39,7 +39,7 @@ char *get_line(int fd, char *tmp, char *save)
 	lu = read_file(fd, tmp, save);
 	if ((lu == 0 || lu == -1) && !save)
 	{
-		free(save);
+		free_ptr(save);
 		return (NULL);
 	}
 	if (check_save(save))
@@ -47,8 +47,7 @@ char *get_line(int fd, char *tmp, char *save)
 	if (!check_save(save) && save)
 	{
 		tmp_free = ft_strdup(save);
-		free(save);
-		save = NULL;
+		free_ptr(save);
 		return (tmp_free);
 	}
 	return (NULL);
@@ -57,15 +56,18 @@ char *get_line(int fd, char *tmp, char *save)
 int	read_file(int fd, char *tmp, char *save)
 {
 	int	lu;
+	char	*tmp_free;
 
 	lu = 1;
-	while (check_save(save) == 0 && lu)
+	while (!check_save(save) == 0 && lu)
 	{
 		lu = read(fd, tmp, BUFFER_SIZE);
 		if (lu == -1)
 			return (lu);
 		tmp[lu] = 0;
-		save = ft_strjoin(save, tmp);
+		tmp_free = save;
+		save = ft_strjoin(tmp_free, tmp);
+		free_ptr(tmp_free);
 	}
 	return (lu);
 }
@@ -74,23 +76,35 @@ char	*ft_extract(char *save)
 {
 	int		c;
 	char	*li;
+	char	*tmp_free;
 
 	c = 0;
-	while (save[c] != '\n' && save[c])
-		c++;
-	li = malloc(c * sizeof(char) + 1);
-	c = 0;
 	while (save[c] && save[c] != '\n')
-	{
-		li[c] = save[c];
 		c++;
-	}
-	li[c] = 0;
-	save = ft_substr(save, c, machin);
+	tmp_free = save;
+	li = ft_substr(tmp_free, 0, c + 1);
+	save = ft_strdup(&save[c + 1]);
+	free_ptr(tmp_free);
 	return (li);
 }
 
-/*int main()
+void	free_ptr(char *ptr)
 {
-	
-}*/
+	free(ptr);
+	ptr = NULL;
+}
+
+int main()
+{
+	int	fd;
+	char	*tab;
+
+	fd = open("test", O_RDWR | O_APPEND);
+	//tab = get_next_line(fd);
+	//printf("%s\n", tab);
+	//tab = get_next_line(fd);
+	//printf("%s\n", tab);
+	tab = get_next_line(fd);
+	printf("final :%s\n", tab);
+	close(fd);
+}
